@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import ReposForm from './ReposForm';
 import ReposList from './ReposList';
-import { fetchRepos } from '../../state/repos';
+import { fetchRepos } from '../../state/entities';
 
 function Repos({ fetchRepos }) {
   const onSubmit = user => {
