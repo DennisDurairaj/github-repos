@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import ReposForm from './ReposForm';
 import ReposList from './ReposList';
+import { fetchRepos } from '../../state/repos';
 
-function Repos() {
+function Repos({ fetchRepos }) {
+  const onSubmit = user => {
+    fetchRepos(user);
+  };
   return (
     <React.Fragment>
-      <ReposForm />
+      <ReposForm onSubmit={onSubmit} />
       <ReposList />
     </React.Fragment>
   );
 }
 
-export default Repos;
+const mapDispatchToProps = {
+  fetchRepos
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Repos);
