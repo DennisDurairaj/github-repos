@@ -4,6 +4,7 @@ const userSchema = new schema.Entity(
   'users',
   {},
   {
+    idAttribute: 'login',
     processStrategy: entity => selectProperties(entity)
   }
 );
