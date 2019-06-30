@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ReposForm from './ReposForm';
 import ReposList from './ReposList';
-import { fetchRepos } from '../../state/entities';
+import { fetchUser } from '../../state/users';
 
-function Repos({ fetchRepos }) {
+function Repos({ fetchUser }) {
+  // const repos = useSelector(getReposSelector);
   const onSubmit = user => {
-    fetchRepos(user);
+    fetchUser(user);
   };
   return (
     <React.Fragment>
@@ -17,7 +18,7 @@ function Repos({ fetchRepos }) {
 }
 
 const mapDispatchToProps = {
-  fetchRepos
+  fetchUser
 };
 
 export default connect(
