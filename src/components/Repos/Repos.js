@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
-import ReposForm from './ReposForm';
-import ReposList from './ReposList';
+import { withRouter } from 'react-router-dom';
 import { fetchUser } from '../../state/users';
 
-function Repos({ fetchUser }) {
+function Repos({ fetchUser, match }) {
   // const repos = useSelector(getReposSelector);
-  const onSubmit = user => {
-    fetchUser(user);
-  };
+  useEffect(() => {
+    fetchUser(match.params.user);
+  }, [fetchUser, match.params.user]);
   return (
     <React.Fragment>
-      <ReposForm onSubmit={onSubmit} />
-      <ReposList />
+      <p>Repos</p>
     </React.Fragment>
   );
 }
@@ -21,7 +19,9 @@ const mapDispatchToProps = {
   fetchUser
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Repos);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(Repos)
+);

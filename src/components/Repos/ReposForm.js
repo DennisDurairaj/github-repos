@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-function ReposForm({ onSubmit, history }) {
+function ReposForm({ history, location }) {
   const [searchUser, setSearchUser] = useState('');
+
+  useEffect(() => {
+    setSearchUser(location.pathname.substring(1));
+  }, [location.pathname]);
 
   const handleChange = event => {
     setSearchUser(event.target.value);
@@ -11,7 +15,6 @@ function ReposForm({ onSubmit, history }) {
   const handleSubmit = event => {
     event.preventDefault();
     history.push(`/${searchUser}`);
-    onSubmit(searchUser);
   };
 
   return (
