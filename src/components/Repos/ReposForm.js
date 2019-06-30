@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
-function ReposForm({ onSubmit }) {
+function ReposForm({ onSubmit, history }) {
   const [searchUser, setSearchUser] = useState('');
 
   const handleChange = event => {
@@ -9,6 +10,7 @@ function ReposForm({ onSubmit }) {
 
   const handleSubmit = event => {
     event.preventDefault();
+    history.push(`/${searchUser}`);
     onSubmit(searchUser);
   };
 
@@ -17,9 +19,10 @@ function ReposForm({ onSubmit }) {
       <form onSubmit={handleSubmit}>
         <label>Search</label>
         <input value={searchUser} onChange={handleChange} type="text" />
+        <input type="submit" value="Submit" />
       </form>
     </React.Fragment>
   );
 }
 
-export default ReposForm;
+export default withRouter(ReposForm);
