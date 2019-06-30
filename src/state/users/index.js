@@ -6,14 +6,16 @@ import { normalize } from 'normalizr';
 const RECEIVE_USER = 'users/RECEIVE_USER';
 
 const initialState = {
+  currentUser: '',
   users: {},
   userIds: []
 };
 
-const receiveUser = ({ entities, result }) => {
+const receiveUser = (currentUser, { entities, result }) => {
   return {
     type: RECEIVE_USER,
     payload: {
+      currentUser,
       entities,
       result
     }
@@ -28,7 +30,7 @@ export const fetchUser = user => dispatch => {
       dispatch(fetchUserRepos(user)).then(response => {
         json.repoIds = response;
         const normalizeUser = normalize(json, userSchema);
-        dispatch(receiveUser(normalizeUser));
+        dispatch(receiveUser(user, normalizeUser));
         dispatch(fetchSuccess());
       });
     });
@@ -39,6 +41,7 @@ export default (state = initialState, action) => {
     case RECEIVE_USER:
       return {
         ...state,
+        currentUser: action.payload.currentUser,
         users: {
           ...state.users,
           ...action.payload.entities.users
