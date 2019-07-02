@@ -85,7 +85,7 @@ export const fetchRepos = (user, page = 1) => (dispatch, getState) => {
       dispatch(setUserRepos(searchUser, normalizedRepos.result));
       dispatch(receiveRepos(normalizedRepos));
       dispatch(fetchingReposSuccess());
-    });
+    })
 };
 
 export default (state = initialState, action) => {

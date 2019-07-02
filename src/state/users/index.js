@@ -63,7 +63,12 @@ export const fetchUser = user => (dispatch, getState) => {
   dispatch(fetchingUser());
   dispatch(resetCurrentPage());
   return fetch(`https://api.github.com/users/${searchUser}`)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok === false) {
+        throw new Error({status: response.status, message: response.statusText})
+      }
+      return response.json()
+    })
     .then(json => {
       const normalizedUser = normalize(json, userSchema);
       dispatch(receiveUser(normalizedUser));
@@ -72,6 +77,7 @@ export const fetchUser = user => (dispatch, getState) => {
       // dispatch(fetchRepos(user));
     })
     .catch(error => {
+      debugger;
       dispatch(fetchingUserFailed(error));
     });
 };
