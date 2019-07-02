@@ -1,12 +1,15 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
+import thunk from "redux-thunk";
 
-import entitiesReducer from './state/entities';
-import fetching from './state/fetching';
+// import entitiesReducer from './state/entities';
+import userReducer from "./state/users";
+import repoReducer from "./state/repos";
+import fetching from "./state/fetching";
 
 const rootReducer = combineReducers({
-  entitiesReducer,
+  userReducer,
+  repoReducer,
   fetching
 });
 
