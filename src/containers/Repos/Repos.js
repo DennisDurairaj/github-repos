@@ -1,36 +1,38 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { makeGetUserRepos } from '../../selectors';
-import List from '../../components/List/List';
-import Loading from '../../components/Loading/Loading';
+import React from "react";
+// import { fetchRepos } from "../../state/entities/index";
+import { fetchUser } from "../../state/users/";
+import { fetchRepos } from "../../state/repos/";
+import { connect } from "react-redux";
+import Search from "../../components/Search/Search";
+// import Repos from "../Repos/Repos";
+// import List from "../../components/List/List";
+import { getUserRepos } from "../../selectors";
 
-function Repos({ repos, isFetching }) {
-  console.log(repos);
+function Home({ fetchUser, fetchRepos, isFetchingRepos, userRepos }) {
+  const handleSubmit = search => {
+    fetchUser(search);
+    fetchRepos(search);
+  };
+
   return (
     <React.Fragment>
-      {repos && repos.length > 0 ? (
-        repos.map(repo => <p key={repo.id}>{repo.name}</p>)
-      ) : (
-        <p>Enter username</p>
-      )}
-      {isFetching && <p>Loading...</p>}
+      <Search onSubmit={handleSubmit} />
+      {isFetchingRepos === false && userRepos.map(repo => <p>{repo.name}</p>)}
     </React.Fragment>
   );
 }
 
-const makeMapStateToProps = () => {
-  const getUserRepos = makeGetUserRepos();
-  const mapStateToProps = (state, ownProps) => {
-    return {
-      isFetching: state.fetching.isFetching,
-      currentUser: state.entitiesReducer.currentUser,
-      repos: getUserRepos(state, ownProps)
-    };
-  };
-  return mapStateToProps;
+const mapStateToProps = (state, ownProps) => ({
+  userRepos: getUserRepos(state, ownProps),
+  isFetchingRepos: state.repoReducer.isFetching
+});
+
+const mapDispatchToProps = {
+  fetchUser,
+  fetchRepos
 };
 
 export default connect(
-  makeMapStateToProps,
-  null
-)(Repos);
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

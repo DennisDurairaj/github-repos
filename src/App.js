@@ -1,10 +1,10 @@
 import React from 'react';
-import Home from './containers/Home/Home';
+import Repos from './containers/Repos/Repos';
 
 function App() {
   return (
     <React.Fragment>
-      <Home />
+      <Repos />
     </React.Fragment>
   );
 }
