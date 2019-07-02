@@ -1,6 +1,6 @@
 import { normalize } from "normalizr";
 import userSchema from "./schema";
-import { fetchRepos } from '../repos'
+import { fetchRepos, resetCurrentPage } from "../repos";
 
 const RECEIVE_USER = "users/RECEIVE_USER";
 const FETCHING_USER = "users/FETCHING_USER";
@@ -13,7 +13,8 @@ const initialState = {
   isFetching: false,
   currentUser: "",
   users: {},
-  userIds: []
+  userIds: [],
+  errors: {}
 };
 
 const fetchingUser = () => ({
@@ -22,6 +23,13 @@ const fetchingUser = () => ({
 
 const fetchingUserSuccess = () => ({
   type: FETCHING_USER_SUCCESS
+});
+
+const fetchingUserFailed = (error) => ({
+  type: FETCHING_USER_FAILED,
+  payload: {
+    error
+  }
 });
 
 const receiveUser = ({ entities, result }) => ({
@@ -53,6 +61,7 @@ export const fetchUser = user => (dispatch, getState) => {
     return dispatch(setCurrentUser(user));
   }
   dispatch(fetchingUser());
+  dispatch(resetCurrentPage());
   return fetch(`https://api.github.com/users/${searchUser}`)
     .then(response => response.json())
     .then(json => {
@@ -61,6 +70,9 @@ export const fetchUser = user => (dispatch, getState) => {
       dispatch(setCurrentUser(user));
       dispatch(fetchingUserSuccess());
       // dispatch(fetchRepos(user));
+    })
+    .catch(error => {
+      dispatch(fetchingUserFailed(error));
     });
 };
 
@@ -76,6 +88,12 @@ export default (state = initialState, action) => {
         ...state,
         isFetching: false
       };
+      case FETCHING_USER_FAILED:
+        return {
+          ...state,
+          isFetching: false,
+          errors: action.payload.error
+        }
     case RECEIVE_USER:
       return {
         ...state,
