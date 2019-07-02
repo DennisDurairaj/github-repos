@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from 'react';
 // import { fetchRepos } from "../../state/entities/index";
-import { fetchUser } from "../../state/users/";
-import { fetchRepos, fetchNextPage } from "../../state/repos/";
-import { connect } from "react-redux";
-import Search from "../../components/Search/Search";
+import { fetchUser } from '../../state/users/';
+import { fetchRepos, fetchNextPage } from '../../state/repos/';
+import { connect } from 'react-redux';
+import Search from '../../components/Search/Search';
 // import Repos from "../Repos/Repos";
 // import List from "../../components/List/List";
-import { getUserRepos } from "../../selectors";
+import { getUserRepos } from '../../selectors';
 
 function Home({
   fetchUser,
@@ -15,31 +15,26 @@ function Home({
   isFetchingRepos,
   userRepos,
   page,
-  reachedLastPage
+  reachedLastPage,
+  error
 }) {
   const handleSubmit = search => {
-    fetchUser(search)
-      .then(() => {
-        return;
-      })
-      .catch(err => {
-        debugger;
-      });
-    fetchRepos(search);
+    fetchUser(search);
   };
 
   const nextPage = () => {
-    // debugger;
-    // setPage(page + 1);
     fetchNextPage(page + 1);
   };
 
   return (
     <React.Fragment>
       <Search onSubmit={handleSubmit} />
+      {error && <p>Error: {error}</p>}
       {isFetchingRepos === false &&
         userRepos.map(repo => <p key={repo.id}>{repo.name}</p>)}
-      {reachedLastPage === false && <button onClick={nextPage}>Load more</button>}
+      {userRepos.length > 0 && !error && reachedLastPage === false && (
+        <button onClick={nextPage}>Load more</button>
+      )}
     </React.Fragment>
   );
 }
@@ -48,7 +43,8 @@ const mapStateToProps = (state, ownProps) => ({
   userRepos: getUserRepos(state, ownProps),
   isFetchingRepos: state.repoReducer.isFetching,
   page: state.repoReducer.currentPage,
-  reachedLastPage: state.repoReducer.reachedLastPage
+  reachedLastPage: state.repoReducer.reachedLastPage,
+  error: state.userReducer.error
 });
 
 const mapDispatchToProps = {

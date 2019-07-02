@@ -14,7 +14,7 @@ const initialState = {
   currentUser: '',
   users: {},
   userIds: [],
-  errors: {}
+  error: ''
 };
 
 const fetchingUser = () => ({
@@ -65,22 +65,19 @@ export const fetchUser = user => (dispatch, getState) => {
   return fetch(`https://api.github.com/users/${searchUser}`)
     .then(response => {
       if (response.ok === false) {
-        throw new Error({
-          status: response.status,
-          message: response.statusText
-        });
+        throw new Error(response.statusText);
       }
       return response.json();
     })
     .then(json => {
       const normalizedUser = normalize(json, userSchema);
+      dispatch(fetchRepos(user));
       dispatch(receiveUser(normalizedUser));
       dispatch(setCurrentUser(user));
       dispatch(fetchingUserSuccess());
-      // dispatch(fetchRepos(user));
     })
     .catch(error => {
-      dispatch(fetchingUserFailed(error));
+      dispatch(fetchingUserFailed(error.message));
     });
 };
 
@@ -100,7 +97,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        errors: action.payload.error
+        error: action.payload.error
       };
     case RECEIVE_USER:
       return {

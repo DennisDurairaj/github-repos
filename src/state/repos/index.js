@@ -56,7 +56,7 @@ export const fetchNextPage = page => (dispatch, getState) => {
     `https://api.github.com/users/${currentUser}/repos?page=${page}&per_page=20`
   )
     .then(response => {
-      if (response.headers.get('Link').includes('next')) {
+      if (response.headers.get('Link').includes('next') === false) {
         dispatch(reachedLastPage());
       }
       return response.json();
