@@ -1,17 +1,17 @@
-import { normalize } from "normalizr";
-import userSchema from "./schema";
-import { fetchRepos, resetCurrentPage } from "../repos";
+import { normalize } from 'normalizr';
+import userSchema from './schema';
+import { fetchRepos, resetCurrentPage } from '../repos';
 
-const RECEIVE_USER = "users/RECEIVE_USER";
-const FETCHING_USER = "users/FETCHING_USER";
-const FETCHING_USER_SUCCESS = "users/FETCHING_USER_SUCCESS";
-const SET_USER_REPOS = "users/SET_USER_REPOS";
-const SET_CURRENT_USER = "users/SET_CURRENT_USER";
-const FETCHING_USER_FAILED = "users/FETCHING_USER_FAILED";
+const RECEIVE_USER = 'users/RECEIVE_USER';
+const FETCHING_USER = 'users/FETCHING_USER';
+const FETCHING_USER_SUCCESS = 'users/FETCHING_USER_SUCCESS';
+const SET_USER_REPOS = 'users/SET_USER_REPOS';
+const SET_CURRENT_USER = 'users/SET_CURRENT_USER';
+const FETCHING_USER_FAILED = 'users/FETCHING_USER_FAILED';
 
 const initialState = {
   isFetching: false,
-  currentUser: "",
+  currentUser: '',
   users: {},
   userIds: [],
   errors: {}
@@ -25,7 +25,7 @@ const fetchingUserSuccess = () => ({
   type: FETCHING_USER_SUCCESS
 });
 
-const fetchingUserFailed = (error) => ({
+const fetchingUserFailed = error => ({
   type: FETCHING_USER_FAILED,
   payload: {
     error
@@ -65,9 +65,12 @@ export const fetchUser = user => (dispatch, getState) => {
   return fetch(`https://api.github.com/users/${searchUser}`)
     .then(response => {
       if (response.ok === false) {
-        throw new Error({status: response.status, message: response.statusText})
+        throw new Error({
+          status: response.status,
+          message: response.statusText
+        });
       }
-      return response.json()
+      return response.json();
     })
     .then(json => {
       const normalizedUser = normalize(json, userSchema);
@@ -77,7 +80,6 @@ export const fetchUser = user => (dispatch, getState) => {
       // dispatch(fetchRepos(user));
     })
     .catch(error => {
-      debugger;
       dispatch(fetchingUserFailed(error));
     });
 };
@@ -94,12 +96,12 @@ export default (state = initialState, action) => {
         ...state,
         isFetching: false
       };
-      case FETCHING_USER_FAILED:
-        return {
-          ...state,
-          isFetching: false,
-          errors: action.payload.error
-        }
+    case FETCHING_USER_FAILED:
+      return {
+        ...state,
+        isFetching: false,
+        errors: action.payload.error
+      };
     case RECEIVE_USER:
       return {
         ...state,

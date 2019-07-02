@@ -1,14 +1,14 @@
-import { normalize } from "normalizr";
-import { reposSchema } from "./schema";
-import { setUserRepos, setCurrentUser } from "../users";
+import { normalize } from 'normalizr';
+import { reposSchema } from './schema';
+import { setUserRepos, setCurrentUser } from '../users';
 
-const RECEIVE_REPOS = "repos/RECEIVE_REPOS";
-const FETCHING_REPOS = "repos/FETCHING_REPOS";
-const FETCHING_REPOS_SUCCESS = "repos/FETCHING_REPOS_SUCCESS";
-const FETCHING_REPOS_FAILED = "repos/FETCHING_REPOS_FAILED";
-const NEXT_PAGE = "repos/NEXT_PAGE";
-const REACHED_LAST_PAGE = "repos/REACHED_LAST_PAGE";
-const RESET_CURRENT_PAGE = "repos/RESET_CURRENT_PAGE";
+const RECEIVE_REPOS = 'repos/RECEIVE_REPOS';
+const FETCHING_REPOS = 'repos/FETCHING_REPOS';
+const FETCHING_REPOS_SUCCESS = 'repos/FETCHING_REPOS_SUCCESS';
+const FETCHING_REPOS_FAILED = 'repos/FETCHING_REPOS_FAILED';
+const NEXT_PAGE = 'repos/NEXT_PAGE';
+const REACHED_LAST_PAGE = 'repos/REACHED_LAST_PAGE';
+const RESET_CURRENT_PAGE = 'repos/RESET_CURRENT_PAGE';
 
 const initialState = {
   currentPage: 1,
@@ -53,10 +53,10 @@ export const fetchNextPage = page => (dispatch, getState) => {
   }
   dispatch(fetchingRepos());
   return fetch(
-    `https://api.github.com/users/${currentUser}/repos?page=${page}&per_page=5`
+    `https://api.github.com/users/${currentUser}/repos?page=${page}&per_page=20`
   )
     .then(response => {
-      if (response.headers.get("Link").includes("next")) {
+      if (response.headers.get('Link').includes('next')) {
         dispatch(reachedLastPage());
       }
       return response.json();
@@ -77,7 +77,7 @@ export const fetchRepos = (user, page = 1) => (dispatch, getState) => {
   }
   dispatch(fetchingRepos());
   return fetch(
-    `https://api.github.com/users/${searchUser}/repos?page=${page}&per_page=30`
+    `https://api.github.com/users/${searchUser}/repos?page=${page}&per_page=20`
   )
     .then(response => response.json())
     .then(json => {
@@ -85,7 +85,7 @@ export const fetchRepos = (user, page = 1) => (dispatch, getState) => {
       dispatch(setUserRepos(searchUser, normalizedRepos.result));
       dispatch(receiveRepos(normalizedRepos));
       dispatch(fetchingReposSuccess());
-    })
+    });
 };
 
 export default (state = initialState, action) => {
