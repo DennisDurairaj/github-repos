@@ -16,7 +16,7 @@ function Search({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit}>
       <label>Search</label>
-      <input value={search} onChange={handleChange} type="text" />
+      <input autoFocus value={search} onChange={handleChange} type="text" />
       <input type="submit" value="Submit" />
     </form>
   );
