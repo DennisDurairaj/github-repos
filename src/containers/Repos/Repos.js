@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 // import { fetchRepos } from "../../state/entities/index";
-import { fetchUser } from '../../state/users/';
-import { fetchRepos, fetchNextPage } from '../../state/repos/';
-import { connect } from 'react-redux';
-import Search from '../../components/Search/Search';
+import { fetchUser } from "../../state/users/";
+import { fetchRepos, fetchNextPage } from "../../state/repos/";
+import { connect } from "react-redux";
+import Search from "../../components/Search/Search";
 // import Repos from "../Repos/Repos";
 // import List from "../../components/List/List";
-import { getUserRepos } from '../../selectors';
+import { getUserRepos } from "../../selectors";
 
 function Home({
   fetchUser,
@@ -29,9 +29,12 @@ function Home({
   return (
     <React.Fragment>
       <Search onSubmit={handleSubmit} />
-      {error && <p>Error: {error}</p>}
-      {isFetchingRepos === false && !error &&
-        userRepos.map(repo => <p key={repo.id}>{repo.name}</p>)}
+      {error && <p className="error">Error: {error}</p>}
+      <ul>
+        {isFetchingRepos === false &&
+          !error &&
+          userRepos.map(repo => <li key={repo.id}>{repo.name}</li>)}
+      </ul>
       {userRepos.length > 0 && !error && reachedLastPage === false && (
         <button onClick={nextPage}>Load more</button>
       )}
