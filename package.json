@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.0.0-rc.0",
     "normalizr": "^3.4.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -11,7 +12,8 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "typeface-roboto": "^0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,7 +25,9 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "eslintIgnore": ["*.spec.js"],
+  "eslintIgnore": [
+    "*.spec.js"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
