@@ -4,7 +4,28 @@ import { fetchRepos, fetchNextPage } from "../../state/repos/";
 import { connect } from "react-redux";
 import Search from "../../components/Search/Search";
 import { getUserRepos } from "../../selectors";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+  makeStyles
+} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  List: {
+    backgroundColor: theme.palette.background.paper
+  },
+  ListItem: {
+    minHeight: "55px"
+  },
+  progress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%"
+  }
+}));
 
 function Home({
   fetchUser,
@@ -16,6 +37,7 @@ function Home({
   reachedLastPage,
   error
 }) {
+  const classes = useStyles();
   const handleSubmit = search => {
     fetchUser(search);
   };
@@ -30,16 +52,31 @@ function Home({
         <Grid item xs={12}>
           <Search onSubmit={handleSubmit} />
         </Grid>
-
+        <Grid className={classes.progress} item xs={12}>
+          {isFetchingRepos && <CircularProgress />}
+        </Grid>
+        <Grid item xs={12}>
+          <List dense>
+            {isFetchingRepos === false &&
+              !error &&
+              userRepos.map(repo => (
+                <Grid item key={repo.id}>
+                  <ListItem className={classes.ListItem} divider={true}>
+                    <ListItemText
+                      primary={repo.name}
+                      secondary={repo.description}
+                    />
+                  </ListItem>
+                </Grid>
+              ))}
+          </List>
+        </Grid>
         {error && <p className="error">Error: {error}</p>}
-        <ul>
-        {isFetchingRepos === false &&
+        {isFetchingRepos === false && userRepos.length > 0 &&
           !error &&
-          userRepos.map(repo => <li key={repo.id}>{repo.name}</li>)}
-      </ul>
-      {userRepos.length > 0 && !error && reachedLastPage === false && (
-        <button onClick={nextPage}>Load more</button>
-      )}
+          reachedLastPage === false && (
+            <button onClick={nextPage}>Load more</button>
+          )}
       </Grid>
     </React.Fragment>
   );

@@ -25,7 +25,7 @@ function Search({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container alignItems="center" spacing={1}>
-        <Grid xs={10} item>
+        <Grid xs={11} item>
           <TextField
             id="search"
             label="Search for a user's repositories"

@@ -1,5 +1,5 @@
 import { schema } from "normalizr";
-import userSchema from '../users/schema'
+import userSchema from "../users/schema";
 
 const repo = new schema.Entity(
   "repos",
@@ -11,8 +11,30 @@ const repo = new schema.Entity(
 );
 
 const selectRepoProperties = entity => {
-  const { id, name, full_name, description, html_url, owner } = entity;
-  return { id, name, full_name, description, html_url, owner };
+  const {
+    id,
+    name,
+    full_name,
+    description,
+    html_url,
+    stargazers_count,
+    watchers_count,
+    language,
+    forks_count,
+    owner
+  } = entity;
+  return {
+    id,
+    name,
+    full_name,
+    description,
+    html_url,
+    stargazers_count,
+    watchers_count,
+    language,
+    forks_count,
+    owner
+  };
 };
 
 export const reposSchema = [repo];

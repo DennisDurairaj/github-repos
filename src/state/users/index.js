@@ -57,6 +57,9 @@ export const setCurrentUser = user => ({
 
 export const fetchUser = user => (dispatch, getState) => {
   const searchUser = user.toLowerCase();
+  if(user === getState().userReducer.currentUser) {
+    return;
+  }
   if (user in getState().userReducer.users) {
     return dispatch(setCurrentUser(user));
   }
