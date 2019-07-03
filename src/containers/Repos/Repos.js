@@ -30,7 +30,7 @@ function Home({
     <React.Fragment>
       <Search onSubmit={handleSubmit} />
       {error && <p>Error: {error}</p>}
-      {isFetchingRepos === false &&
+      {isFetchingRepos === false && !error &&
         userRepos.map(repo => <p key={repo.id}>{repo.name}</p>)}
       {userRepos.length > 0 && !error && reachedLastPage === false && (
         <button onClick={nextPage}>Load more</button>

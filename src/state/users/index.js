@@ -91,7 +91,8 @@ export default (state = initialState, action) => {
     case FETCHING_USER_SUCCESS:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        error: ''
       };
     case FETCHING_USER_FAILED:
       return {
