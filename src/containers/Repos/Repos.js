@@ -9,9 +9,16 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
   CircularProgress,
+  Paper,
+  Link,
+  Button,
+  Breadcrumbs,
+  Typography,
   makeStyles
 } from "@material-ui/core";
+import Octicon from "react-component-octicons";
 
 const useStyles = makeStyles(theme => ({
   List: {
@@ -24,6 +31,12 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     top: "50%",
     left: "50%"
+  },
+  subTitle: {
+    maxWidth: "80%"
+  },
+  paper: {
+    padding: theme.spacing(2, 2)
   }
 }));
 
@@ -50,7 +63,9 @@ function Home({
     <React.Fragment>
       <Grid container>
         <Grid item xs={12}>
-          <Search onSubmit={handleSubmit} />
+          <Paper className={classes.paper}>
+            <Search onSubmit={handleSubmit} />
+          </Paper>
         </Grid>
         <Grid className={classes.progress} item xs={12}>
           {isFetchingRepos && <CircularProgress />}
@@ -63,19 +78,60 @@ function Home({
                 <Grid item key={repo.id}>
                   <ListItem className={classes.ListItem} divider={true}>
                     <ListItemText
-                      primary={repo.name}
-                      secondary={repo.description}
+                      primary={
+                        <Link
+                          href={repo.html_url}
+                          target="_blank"
+                          rel="noreferrer">
+                          {repo.name}
+                        </Link>
+                      }
+                      secondary={
+                        <Typography
+                          variant="body2"
+                          component="p"
+                          color="textSecondary"
+                          className={classes.subTitle}>
+                          {repo.description}
+                        </Typography>
+                      }
                     />
+                    <ListItemSecondaryAction>
+                      <Breadcrumbs aria-label="Breadcrumb">
+                        <Typography
+                          color="textSecondary"
+                          className={classes.link}>
+                          <Octicon name="star" /> {repo.stargazers_count}
+                        </Typography>
+                        <Typography
+                          color="textSecondary"
+                          className={classes.link}>
+                          <Octicon name="git-branch" /> {repo.forks_count}
+                        </Typography>
+                        {repo.language && (
+                          <Typography
+                            color="textSecondary"
+                            className={classes.link}>
+                            {repo.language}
+                          </Typography>
+                        )}
+                      </Breadcrumbs>
+                    </ListItemSecondaryAction>
                   </ListItem>
                 </Grid>
               ))}
           </List>
         </Grid>
         {error && <p className="error">Error: {error}</p>}
-        {isFetchingRepos === false && userRepos.length > 0 &&
+        {isFetchingRepos === false &&
+          userRepos.length > 0 &&
           !error &&
           reachedLastPage === false && (
-            <button onClick={nextPage}>Load more</button>
+            <Grid container justify="center">
+              <Button color="primary" onClick={nextPage}>
+                Load more
+              </Button>
+            </Grid>
           )}
       </Grid>
     </React.Fragment>
