@@ -22,14 +22,14 @@ describe("Repos", () => {
       cy.get('input[type="text"]')
         .click()
         .type("typicode");
-      cy.get('input[type="submit"]').click();
+      cy.get('Button[type="submit"]').click();
     });
     it("should display list of repos", () => {
       cy.get("li").should("exist");
     });
     it("should not display error", () => {
       cy.get(".error").should("not.exist");
-    })
+    });
   });
 
   context("Fetch user repos failure", () => {
@@ -38,7 +38,7 @@ describe("Repos", () => {
       cy.get('input[type="text"]')
         .click()
         .type(`${searchUser}`);
-      cy.get('input[type="submit"]').click();
+      cy.get('Button[type="submit"]').click();
       cy.server();
       cy.route({
         url: `https://api.github.com/users/${searchUser}`,

@@ -124,7 +124,7 @@ function Home({
         </Grid>
         {error && (
           <Grid container justify="center">
-            <Typography component="h1">
+            <Typography className="error" component="h1">
                 Error: {error}
             </Typography>
           </Grid>
