@@ -68,6 +68,11 @@ export const fetchUser = user => (dispatch, getState) => {
   return fetch(`https://api.github.com/users/${searchUser}`)
     .then(response => {
       if (response.ok === false) {
+        if(response.status === 403) {
+          throw new Error("Sorry! You are not authorized to access this page")
+        } else if (response.status === 404) {
+          throw new Error(`Sorry! We could not find the user '${user}'`)
+        }
         throw new Error(response.statusText);
       }
       return response.json();

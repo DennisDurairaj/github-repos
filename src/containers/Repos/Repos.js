@@ -122,7 +122,13 @@ function Home({
               ))}
           </List>
         </Grid>
-        {error && <p className="error">Error: {error}</p>}
+        {error && (
+          <Grid container justify="center">
+            <Typography component="h1">
+                Error: {error}
+            </Typography>
+          </Grid>
+        )}
         {isFetchingRepos === false &&
           userRepos.length > 0 &&
           !error &&
