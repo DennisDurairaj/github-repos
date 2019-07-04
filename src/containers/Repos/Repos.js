@@ -4,21 +4,15 @@ import { fetchRepos, fetchNextPage } from "../../state/repos/";
 import { connect } from "react-redux";
 import Search from "../../components/Search/Search";
 import { getUserRepos } from "../../selectors";
+import Listing from '../../components/Listing/Listing'
 import {
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
   CircularProgress,
   Paper,
-  Link,
   Button,
-  Breadcrumbs,
   Typography,
   makeStyles
 } from "@material-ui/core";
-import Octicon from "react-component-octicons";
 
 const useStyles = makeStyles(theme => ({
   List: {
@@ -71,56 +65,7 @@ function Home({
           {isFetchingRepos && <CircularProgress />}
         </Grid>
         <Grid item xs={12}>
-          <List dense>
-            {isFetchingRepos === false &&
-              !error &&
-              userRepos.map(repo => (
-                <Grid item key={repo.id}>
-                  <ListItem className={classes.ListItem} divider={true}>
-                    <ListItemText
-                      primary={
-                        <Link
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noreferrer">
-                          {repo.name}
-                        </Link>
-                      }
-                      secondary={
-                        <Typography
-                          variant="body2"
-                          component="p"
-                          color="textSecondary"
-                          className={classes.subTitle}>
-                          {repo.description}
-                        </Typography>
-                      }
-                    />
-                    <ListItemSecondaryAction>
-                      <Breadcrumbs aria-label="Breadcrumb">
-                        <Typography
-                          color="textSecondary"
-                          className={classes.link}>
-                          <Octicon name="star" /> {repo.stargazers_count}
-                        </Typography>
-                        <Typography
-                          color="textSecondary"
-                          className={classes.link}>
-                          <Octicon name="git-branch" /> {repo.forks_count}
-                        </Typography>
-                        {repo.language && (
-                          <Typography
-                            color="textSecondary"
-                            className={classes.link}>
-                            {repo.language}
-                          </Typography>
-                        )}
-                      </Breadcrumbs>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </Grid>
-              ))}
-          </List>
+          <Listing list={userRepos} isFetching={isFetchingRepos} error={error} />
         </Grid>
         {error && (
           <Grid container justify="center">
