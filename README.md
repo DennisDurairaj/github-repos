@@ -4,7 +4,7 @@
 
 1. Clone the repo to your machine.
 2. Open terminal in the `github-repos` folder and install npm packages with `yarn install` or `npm install`
-3. To run the app in development mode run script `yarn start` or `npm start` to lauch the app in your browser on [http://localhost:3000](http://localhost:3000)
+3. To run the app in development mode run script `yarn start` or `npm start` to launch the app in your browser on [http://localhost:3000](http://localhost:3000)
 
 ## Integration tests
 
