@@ -1,11 +1,10 @@
 import { normalize } from 'normalizr';
 import { reposSchema } from './schema';
-import { setUserRepos, setCurrentUser } from '../users';
+import { setUserRepos } from '../users';
 
 const RECEIVE_REPOS = 'repos/RECEIVE_REPOS';
 const FETCHING_REPOS = 'repos/FETCHING_REPOS';
 const FETCHING_REPOS_SUCCESS = 'repos/FETCHING_REPOS_SUCCESS';
-const FETCHING_REPOS_FAILED = 'repos/FETCHING_REPOS_FAILED';
 const NEXT_PAGE = 'repos/NEXT_PAGE';
 const REACHED_LAST_PAGE = 'repos/REACHED_LAST_PAGE';
 const RESET_CURRENT_PAGE = 'repos/RESET_CURRENT_PAGE';
